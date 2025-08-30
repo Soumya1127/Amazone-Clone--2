@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Clone - Enhanced</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Amazon Ember', Arial, sans-serif;
+            background-color: #f3f3f3;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #131921;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            height: 60px;
+        }
+
+        .border {
+            padding: 8px 10px;
+            border: 2px solid transparent;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .border:hover {
+            border-color: white;
+        }
+
+        .nav-logo {
+            margin-right: 20px;
+        }
+
+        .logo {
+            background: url('https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg') no-repeat center;
+            background-size: contain;
+            width: 100px;
+            height: 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-address {
+            margin-right: 20px;
+        }
+
+        .add-first {
+            font-size: 12px;
+            color: #cccccc;
+            margin-bottom: 2px;
+        }
+
+        .add-icon {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-second {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .nav-search {
+            display: flex;
+            flex: 1;
+            max-width: 600px;
+            margin-right: 20px;
+            height: 40px;
+        }
+
+        .search-select {
+            background-color: #f3f3f3;
+            border: none;
+            padding: 0 10px;
+            border-radius: 4px 0 0 4px;
+            min-width: 55px;
+            cursor: pointer;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-icon {
+            background-color: #febd69;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-icon:hover {
+            background-color: #f3a847;
+        }
+
+        .nav-sign-in, .nav-return {
+            margin-right: 20px;
+        }
+
+        .nav-sign-in span, .nav-return span {
+            font-size: 12px;
+        }
+
+        .nav-second {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .nav-cart {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .nav-cart i {
+            font-size: 24px;
+        }
+
+        /* Panel */
+        .panel {
+            background-color: #232f3e;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            height: 40px;
+        }
+
+        .panel-all {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 10px;
+            border-radius: 2px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .panel-all:hover {
+            background-color: #485769;
+        }
+
+        .panel-ops {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .panel-ops p {
+            cursor: pointer;
+            padding: 8px 5px;
+            transition: color 0.2s;
+        }
+
+        .panel-ops p:hover {
+            color: #febd69;
+        }
+
+        .panel-deals {
+            color: #febd69;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.1)), 
+                        url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop') center/cover;
+            height: 400px;
+            position: relative;
+            margin-bottom: -150px;
+        }
+
+        .hero-msg {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 12px;
+            margin: 0 20px;
+            border-radius: 4px;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hero-msg a {
+            color: #007185;
+            text-decoration: none;
+        }
+
+        .hero-msg a:hover {
+            text-decoration: underline;
+        }
+
+        /* Shop Section */
+        .shop-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .box-content h2 {
+            font-size: 21px;
+            margin-bottom: 15px;
+            color: #0f1111;
+        }
+
+        .box-img {
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .box:hover .box-img {
+            transform: scale(1.02);
+        }
+
+        /* Sample images for demo */
+        .box:nth-child(1) .box-img { background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=280&fit=crop'); }
+        .box:nth-child(2) .box-img { background-image: url('https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=300&h=280&fit=crop'); }
+        .box:nth-child(3) .box-img { background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=280&fit=crop'); }
+        .box:nth-child(4) .box-img { background-image: url('https://images.unsplash.com/photo-1498049794561-7780e7231661?w=300&h=280&fit=crop'); }
+        .box:nth-child(5) .box-img { background-image: url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=280&fit=crop'); }
+        .box:nth-child(6) .box-img { background-image: url('https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=280&fit=crop'); }
+        .box:nth-child(7) .box-img { background-image: url('https://images.unsplash.com/photo-1558877385-d1d03622fe99?w=300&h=280&fit=crop'); }
+        .box:nth-child(8) .box-img { background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=280&fit=crop'); }
+
+        .box-content p {
+            color: #007185;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .foot-panel1 {
+            background-color: #37475a;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .foot-panel1:hover {
+            background-color: #485769;
+        }
+
+        .foot-panel2 {
+            background-color: #232f3e;
+            color: white;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding: 40px 20px;
+        }
+
+        .foot-panel2 ul {
+            list-style: none;
+        }
+
+        .foot-panel2 ul p {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .foot-panel2 ul a {
+            display: block;
+            color: #dddddd;
+            text-decoration: none;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .foot-panel2 ul a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .foot-panel3 {
+            background-color: #232f3e;
+            border-top: 1px solid #3a4553;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .logo-footer {
+            background: url('https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg') no-repeat center;
+            background-size: contain;
+            width: 120px;
+            height: 40px;
+            filter: brightness(0) invert(1);
+            margin: 0 auto;
+        }
+
+        .foot-panel4 {
+            background-color: #131921;
+            color: #999999;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        .pages {
+            margin-bottom: 15px;
+        }
+
+        .pages a {
+            color: #999999;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .pages a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px;
+            }
+            
+            .nav-search {
+                order: 3;
+                width: 100%;
+                margin: 10px 0 0 0;
+            }
+            
+            .panel-ops {
+                display: none;
+            }
+            
+            .hero-section {
+                height: 250px;
+            }
+            
+            .shop-section {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #febd69;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="nav-logo border">
+                <div class="logo"></div>
+            </div>
+
+            <div class="nav-address border">
+                <p class="add-first">Deliver to</p>
+                <div class="add-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p class="add-second">India</p>
+                </div>
+            </div>
+
+            <div class="nav-search">
+                <select class="search-select">
+                    <option value="">All</option>
+                    <option value="books">Books</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                </select>
+                <input placeholder="Search Amazon" class="search-input">
+                <div class="search-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+
+            <div class="nav-sign-in border">
+                <p><span>Hello, sign in</span></p>
+                <p class="nav-second">Account & Lists</p>
+            </div>
+
+            <div class="nav-return border">
+                <p><span>Returns</span></p>
+                <p class="nav-second">& Orders</p>
+            </div>
+
+            <div class="nav-cart border">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Cart
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-all">
+                <i class="fa-solid fa-bars"></i>
+                All
+            </div>
+            <div class="panel-ops">
+                <p>Today's Deals</p>
+                <p>Buy Again</p>
+                <p>Customer Service</p>
+                <p>Registry</p>
+                <p>Gift Cards</p>
+                <p>Sell</p>
+            </div>
+            <div class="panel-deals">
+                Shop the Gaming Store
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-section">
+        <div class="hero-msg">
+            <p>You are on amazon.com. You can also shop on Amazon India for millions of products with fast local
+                delivery. <a href="#">Click here to go to amazon.in</a></p>
+        </div>
+    </div>
+
+    <div class="shop-section">
+        <div class="box">
+            <div class="box-content">
+                <h2>Clothes</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Health & Personal Care</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Furniture</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Electronics</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Beauty Care</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Pet Accessories</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Toys</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-content">
+                <h2>Fashion</h2>
+                <div class="box-img"></div>
+                <p>See more</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="foot-panel1" onclick="scrollToTop()">
+            Back to top
+        </div>
+
+        <div class="foot-panel2">
+            <ul>
+                <p>Get to Know Us</p>
+                <a>Careers</a>
+                <a>Blog</a>
+                <a>About Amazon</a>
+                <a>Investor Relations</a>
+                <a>Amazon Devices</a>
+                <a>Amazon Science</a>
+            </ul>
+            <ul>
+                <p>Make Money with Us</p>
+                <a>Sell products on Amazon</a>
+                <a>Sell on Amazon Business</a>
+                <a>Sell apps on Amazon</a>
+                <a>Become an Affiliate</a>
+                <a>Advertise Your Products</a>
+                <a>Self-Publish with Us</a>
+                <a>Host an Amazon Hub</a>
+            </ul>
+            <ul>
+                <p>Amazon Payment Products</p>
+                <a>Amazon Business Card</a>
+                <a>Shop with Points</a>
+                <a>Reload Your Balance</a>
+                <a>Amazon Currency Converter</a>
+            </ul>
+            <ul>
+                <p>Let Us Help You</p>
+                <a>Amazon and COVID-19</a>
+                <a>Your Account</a>
+                <a>Your Orders</a>
+                <a>Shipping Rates & Policies</a>
+                <a>Returns & Replacements</a>
+                <a>Manage Your Content and Devices</a>
+                <a>Help</a>
+            </ul>
+        </div>
+
+        <div class="foot-panel3">
+            <div class="logo-footer"></div>
+        </div>
+
+        <div class="foot-panel4">
+            <div class="pages">
+                <a>Conditions of Use</a>
+                <a>Privacy Notice</a>
+                <a>Consumer Health Data Privacy Disclosure</a>
+                <a>Your Ads Privacy Choices</a>
+            </div>
+            <div class="copyright">
+                © 1996-2024, Amazon.com, Inc. or its affiliates
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value;
+                if (query) {
+                    alert(`Searching for: ${query}`);
+                }
+            }
+        });
+
+        // Cart interaction
+        document.querySelector('.nav-cart').addEventListener('click', function() {
+            alert('Cart functionality would be implemented here');
+        });
+
+        // Add smooth scrolling for hero message
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroMsg = document.querySelector('.hero-msg');
+            setTimeout(() => {
+                heroMsg.style.opacity = '1';
+            }, 300);
+        });
+    </script>
+</body>
+
+</html>
